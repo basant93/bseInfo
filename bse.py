@@ -5,14 +5,15 @@ import csv
 from zipfile import ZipFile
 import json
 from redis_server import FilterRedis
+import glob
 
 bse_url = "https://www.bseindia.com/markets/MarketInfo/BhavCopy.aspx" 
 
 def download_zip_file():
 
     store = FilterRedis()
-    file_name = "ankit" + time.strftime("%Y%m%d-%H%M%S")
-
+    #file_name = "bse_equity" + time.strftime("%Y%m%d-%H%M%S")
+    file_name = "bse_equity"
 
     page = requests.get(bse_url)
     soup = BeautifulSoup(page.content, 'html.parser')
@@ -28,15 +29,14 @@ def download_zip_file():
             if(chunk):
                 f.write(chunk)
 
-    print(href_val)
     with ZipFile(file_name, 'r') as zip:
         zip.extractall()
-        print("Done")
-
-    csv_file = "/home/basant/Desktop/WebInfo/EQ010219.CSV"
+        print("Extracted the file.")
+    csv_file_name = glob.glob('./*.CSV')
+    
+    csv_file = csv_file_name[0]
     with open(csv_file, 'r') as csvfile: 
     # creating a csv reader object 
-        #csvreader = csv.reader(csvfile) 
         csvreader = csv.DictReader(csvfile)
         
         # extracting field names through first row 
@@ -56,8 +56,8 @@ def download_zip_file():
             store.push(data)
 
     
-        print(row['SC_CODE'],row['SC_NAME'], row['OPEN'], row['HIGH'], row['LOW'], row['CLOSE']) 
-        print(store.fetch_all())
+        #print(row['SC_CODE'],row['SC_NAME'], row['OPEN'], row['HIGH'], row['LOW'], row['CLOSE']) 
+        #print(store.fetch_all())
         return store.fetch_all()
 
 

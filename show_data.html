@@ -43,14 +43,6 @@
 
 </head>
 <body>
-    <input type="text" value="8" name="length"/>
-    <button id="generate-string">Give it now!</button>
-
-    <div id="the-string">
-            <input type="text" />
-        </div>
-
-
 
 <h2>BSE EQUITY RECORDS</h2>
 
@@ -64,25 +56,16 @@ function myFunction(){
     $.post("/bse_response", {"search_text": $("input[id='myInput']").val()})
     .done(function(string) {
 
-
-
     tableRecordhtml= "<table id='myTable'> <thead > <tr><th>SC_CODE</th><th>SC_NAME</th><th>OPEN</th><th>CLOSE</th><th>LOW</th><th>HIGH</th></tr></thead>";
     data_obj = JSON.parse(JSON.stringify(string))
       for (x in data_obj) {
           y = data_obj[x]
-          console.log(data_obj);
-          console.log(x['OPEN']);
-          console.log(x);
-        console.log(data_obj[x]['OPEN']);
-        
 
     tableRecordhtml += "              <tr><td>"+ y['SC_CODE']+"</td><td>"+y['SC_NAME'] +"</td>\n"+
                 "                       <td>"+ y['OPEN'] +"</td>\n"+
                 "                          <td>"+ y['CLOSE'] +"</td>\n"+"<td>"+ y['LOW'] +"</td>\n"+
                 "<td>"+ y['HIGH'] +"</td>\n"+
                 "</tr> ";
-        
-
       }
       tableRecordhtml += "</table>"
 
@@ -92,17 +75,6 @@ function myFunction(){
     });
    
 }
-//next func to gen random string
-$("#generate-string").click(function(e) {
-    $.post("/bse_response", {"length": $("input[name='length']").val()})
-    .done(function(string) {
-        $("#the-string").show();
-        $("#the-string input").val(string['key']);
-
-    });
-    e.preventDefault();
-});
-
 
 </script>
 
