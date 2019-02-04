@@ -42,3 +42,23 @@ class FilterRedis:
             tweets.append(tweet_obj)
         print("My tweets : ", tweets)
         return tweets[:10]
+    
+
+    def search_result(self, search_text, limit=15):
+        print("Hello fetch all")
+        tweets = []
+        limit = self.db.llen(self.redis_key)
+        for item in self.db.lrange(self.redis_key, 0, limit-1):
+            print(item)
+
+            if(search_text !=None):
+                
+                tweet_obj = json.loads(item.decode('utf-8'))
+                if search_text in tweet_obj['SC_NAME']:
+                    tweets.append(tweet_obj)
+
+            else:
+                tweet_obj = json.loads(item.decode('utf-8'))
+                tweets.append(tweet_obj)
+        print("My tweets : ", tweets)
+        return tweets[:10]

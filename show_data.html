@@ -52,62 +52,21 @@
 
 
 
-<h2>My Customers</h2>
+<h2>BSE EQUITY RECORDS</h2>
 
 <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
-
-<table id="myTable">
-  <!-- <tr class="header">
-    <th style="width:20%;">SC_CODE</th>
-    <th style="width:20%;">SC_NAME</th>
-    <th style="width:20%;">OPEN</th>
-    <th style="width:20%;">CLOSE</th>
-    <th style="width:10%;">LOW</th>
-    <th style="width:10%;">HIGH</th>
-    
-  </tr> -->
-
-  <!-- <p id="demo"></p> -->
-  
-</table>
+ <div id="bseTopRecords"> </div>
 
 <script>
-// function myFunction() {
-//   var input, filter, table, tr, td, i, txtValue;
-//   input = document.getElementById("myInput");
-//   filter = input.value.toUpperCase();
-//   table = document.getElementById("myTable");
-//   tr = table.getElementsByTagName("tr");
-//   for (i = 0; i < tr.length; i++) {
-//     td = tr[i].getElementsByTagName("td")[0];
-//     if (td) {
-//       txtValue = td.textContent || td.innerText;
-//       if (txtValue.toUpperCase().indexOf(filter) > -1) {
-//         tr[i].style.display = "";
-//       } else {
-//         tr[i].style.display = "none";
-//       }
-//     }       
-//   }
-// }
-
 
 function myFunction(){
-    
-    $.post("/bse_response", {"length": $("input[name='length']").val()})
+    $('#bseTopRecords').html("");
+    $.post("/bse_response", {"search_text": $("input[id='myInput']").val()})
     .done(function(string) {
-        $("#demo").show();
-        //$("#demo").val(string['key']);
-        //$('#myInput').append('<tr><td>' + data[i].accountNumber + '</td><td>' + data[i].category + '</td><td>' + data[i].ssn +'</td><td>' + data[i].ssn +'</td><td>' + data[i].ssn +'</td></tr>');
-        
-        txt = ""
-    //     txt += "<table border='1'>  <tr class='header'>"+
-    // <th style='width:20%;'>SC_CODE</th>
-    // <th style='width:20%;'>SC_NAME</th>
-    // <th style='width:20%;'>OPEN</th>
-    // <th style='width:20%;'>CLOSE</th>
-    // <th style='width:10%;'>LOW</th>
-    // <th style='width:10%;'>HIGH</th> +"</tr>";
+
+
+
+    tableRecordhtml= "<table id='myTable'> <thead > <tr><th>SC_CODE</th><th>SC_NAME</th><th>OPEN</th><th>CLOSE</th><th>LOW</th><th>HIGH</th></tr></thead>";
     data_obj = JSON.parse(JSON.stringify(string))
       for (x in data_obj) {
           y = data_obj[x]
@@ -115,19 +74,20 @@ function myFunction(){
           console.log(x['OPEN']);
           console.log(x);
         console.log(data_obj[x]['OPEN']);
-        tablePromotionRecordhtml= "<thead><tr><th>SC_CODE</th><th>SC_NAME</th><th>OPEN</th><th>CLOSE</th><th>LOW</th><th>HIGH</th></tr></thead>";
+        
 
-    tablePromotionRecordhtml += "              <tr><td>"+ y['SC_CODE']+"</td><td>"+y['SC_NAME'] +"</td>\n"+
+    tableRecordhtml += "              <tr><td>"+ y['SC_CODE']+"</td><td>"+y['SC_NAME'] +"</td>\n"+
                 "                       <td>"+ y['OPEN'] +"</td>\n"+
                 "                          <td>"+ y['CLOSE'] +"</td>\n"+"<td>"+ y['LOW'] +"</td>\n"+
                 "<td>"+ y['HIGH'] +"</td>\n"+
                 "</tr> ";
-        //$(table).find('tbody').append( "<tr><td>aaaa</td></tr>" );
-        //$('#myInput').append('<tr><td>' + y['SC_CODE'] + '</td><td>' + y['SC_NAME'] + '</td><td>' + y['OPEN'] +'</td><td>' + y['CLOSE'] +'</td><td>' + y['LOW'] + '</td><td>' + y['CLOSE'] +'</td></tr>');
+        
 
       }
+      tableRecordhtml += "</table>"
 
-      $('#myInput').html(tablePromotionRecordhtml);
+      $('#bseTopRecords').html(tableRecordhtml);
+
  
     });
    

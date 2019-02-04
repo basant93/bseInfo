@@ -39,10 +39,10 @@ class App:
     
     @cherrypy.expose
     @cherrypy.tools.json_out()
-    def bse_response(self, length=8):
+    def bse_response(self, search_text=None):
         store = FilterRedis()
 
-        return store.fetch_all()
+        return store.search_result(search_text)
         #return {'key': 'value'}
     
 
