@@ -23,7 +23,7 @@ class App:
         of name. Output is displayed below.
         """
         main()
-        return open('/home/basant/Desktop/WebInfo/show_data.html')
+        return open('./show_data.html')
 
     @cherrypy.expose
     def generate(self, length=8):
